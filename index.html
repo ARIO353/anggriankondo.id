@@ -3,75 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ario Bosku | Web Developer & App Creator</title>
+    <title>Anggrian kondo | Web Developer & App Creator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
     <style>
-        /* Variabel CSS untuk Dark/Light Mode (Tetap Sama) */
+        /* Variabel CSS untuk Dark/Light Mode */
         :root {
             --neon-blue: #00bfff;
-            --neon-purple: #9370DB; /* Warna gradien baru */
             --dark-bg: #121212;
             --dark-secondary-bg: #1f1f1f;
             --dark-text: #e0e0e0;
             --dark-subtext: #a0a0a0;
             --dark-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
-            --light-bg: #f4f7f9; /* Warna light mode sedikit diubah */
-            --light-secondary-bg: #ffffff;
+            --light-bg: #ffffff;
+            --light-secondary-bg: #f8f9fa;
             --light-text: #212529;
             --light-subtext: #6c757d;
-            --light-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --light-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- PENYEMPURNAAN GLOBAL --- */
+        /* Default: Dark Mode */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--dark-bg);
             color: var(--dark-text);
             transition: background-color 0.5s, color 0.5s;
             scroll-behavior: smooth;
-            overflow-x: hidden;
-            scroll-padding-top: 100px; /* Offset untuk sticky nav */
+            /* Pastikan body tidak bergerak saat drag/sentuhan */
+            overflow-x: hidden; 
         }
 
-        section {
-            padding-top: 6rem;
-            padding-bottom: 6rem;
-        }
-
-        p, .card-text {
-            line-height: 1.75; /* Jarak baris lebih nyaman */
-            color: var(--dark-subtext);
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: 700; /* Judul lebih tegas */
-        }
-
-        /* Pemisah <hr> yang lebih modern */
-        hr {
-            border: none;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
-            opacity: 0.5;
-        }
-        
-        /* CSS untuk kursor Typed.js */
-        .typed-cursor {
-            color: var(--neon-blue);
-            opacity: 1;
-            animation: typed-blink 0.7s infinite;
-        }
-        @keyframes typed-blink {
-            50% { opacity: 0.0; }
-        }
-
-        /* --- LIGHT MODE STYLING --- */
+        /* Light Mode Styling */
         body.light-mode {
             background-color: var(--light-bg);
             color: var(--light-text);
@@ -83,8 +48,14 @@
             box-shadow: var(--light-shadow);
             color: var(--light-text);
         }
-        body.light-mode .text-neon { color: var(--neon-blue) !important; }
-        body.light-mode p, body.light-mode .card-text { color: var(--light-subtext); }
+        body.light-mode .text-neon {
+            color: var(--neon-blue) !important;
+        }
+        body.light-mode .btn-neon {
+            background-color: var(--neon-blue);
+            color: var(--light-bg);
+            border: none;
+        }
         body.light-mode .form-control,
         body.light-mode .form-control:focus {
             background-color: #fff;
@@ -92,69 +63,69 @@
             color: var(--light-text);
         }
 
-        /* --- NAVBAR MODERN (EFEK KACA BURAM) --- */
-        .navbar.sticky-top {
-            /* Gunakan RGBA untuk transparansi */
-            background-color: rgba(31, 31, 31, 0.8) !important;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* Untuk Safari */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--neon-blue) !important;
-            text-shadow: 0 0 8px rgba(0, 191, 255, 0.7);
-        }
-        body.light-mode .navbar.sticky-top {
-            background-color: rgba(255, 255, 255, 0.85) !important;
-            border-bottom: 1px solid #e9ecef;
+        /* --- Custom CSS untuk Fixed/Drag Image AREA --- */
+        #fixed-image-area {
+            position: fixed;
+            /* PERBAIKAN: Hapus transform: translateY(-50%) */
+            /* PERUBAHAN: Naikkan TOP dan Geser ke kanan */
+            top: 30%; 
+            left: 25%; 
+            /* PERUBAHAN UTAMA: Geser ke kiri setengah lebar gambar (300px/2 = 150px) */
+            transform: translateX(-150px);
+            z-index: 10;
         }
 
-        /* --- GAMBAR PROFIL INTERAKTIF --- */
-        #fixed-image-area, #anchor-point, #rope-svg {
-            /* Tidak ada perubahan pada logika posisi, hanya visual */
+        /* Anchor point for the spring/rope */
+        #anchor-point {
+            position: fixed;
+            top: 0; /* Anchor di atas */
+            /* PERUBAHAN: Posisi horizontal yang sama dengan fixed-image-area */
+            left: 25%; 
+            width: 0;
+            height: 0;
+            z-index: 9;
         }
-        /* Posisi CSS asli tetap dipertahankan */
-        #fixed-image-area { position: fixed; top: 30%; left: 25%; transform: translateX(-150px); z-index: 10; }
-        #anchor-point { position: fixed; top: 0; left: 25%; width: 0; height: 0; z-index: 9; }
-        #rope-svg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9; pointer-events: none; }
-        #draggable-container { transform: translate(0px, 0px); touch-action: none; user-select: none; }
 
+/* Rope/Tali Tipis (SVG for simple line) */
+#rope-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9; /* Di bawah gambar */
+            pointer-events: none;
+        }
+        
+        /* Gambar Profil (Persegi Panjang, tidak bulat) */
         .profile-img {
+            /* PERUBAHAN UTAMA: Ukuran diubah menjadi 300x400px */
             width: 300px; 
             height: 400px;
             object-fit: cover;
-            border-radius: 12px;
-            cursor: grab;
-            transition: box-shadow 0.4s ease, transform 0.4s ease;
-            
-            /* Efek Border Gradien Modern */
-            border: 4px solid transparent;
-            background-image: linear-gradient(var(--dark-secondary-bg), var(--dark-secondary-bg)), 
-                              linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
+            border-radius: 12px; /* Rounded corners */
+            border: 5px solid var(--neon-blue);
+            box-shadow: var(--dark-shadow);
+            cursor: grab; /* Kursor grab saat hover */
+            transition: box-shadow 0.3s, border 0.3s;
         }
-        .profile-img:active { cursor: grabbing; }
+        .profile-img:active {
+            cursor: grabbing;
+        }
         .profile-img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 50px rgba(0, 191, 255, 0.6);
+             border: 5px solid rgba(255, 255, 255, 0.8);
+             box-shadow: 0 0 40px var(--neon-blue);
         }
 
-        @media (min-width: 992px) {
-            #beranda .text-content-area { margin-left: 55%; padding-left: 3rem; }
-        }
-        @media (max-width: 991.98px) {
-            #fixed-image-area, #rope-svg { display: none; }
-            #beranda { min-height: auto; }
-            #beranda .text-content-area { margin-left: 0; }
+        /* Container untuk gambar yang akan di-transform */
+        #draggable-container {
+            transform: translate(0px, 0px); /* Initial position */
+            touch-action: none; /* Disable default touch actions */
+            user-select: none; /* Prevent text selection during drag */
         }
 
-        /* --- KONTEN & KOMPONEN --- */
+
+        /* Penyesuaian Hero Section */
         #beranda {
             min-height: 100vh;
             padding-top: 100px; 
@@ -162,318 +133,921 @@
             z-index: 1;
         }
 
-        /* Tombol (Button) dengan Gradien */
+        /* Mengatur posisi konten teks di Hero */
+        #beranda .text-content-area {
+            margin-left: auto;
+            padding-right: 15px;
+        }
+
+        /* Responsif untuk layar besar: pastikan konten teks berada di kanan */
+        @media (min-width: 992px) {
+            #beranda .text-content-area {
+                /* Konten teks dimulai dari setelah gambar yang digeser ke 25% */
+                margin-left: 55%; 
+                padding-left: 3rem;
+            }
+        }
+        
+        /* Responsif untuk layar kecil: Sembunyikan gambar fixed agar tidak mengganggu tata letak */
+        @media (max-width: 991.98px) {
+            #fixed-image-area {
+                display: none;
+            }
+            #rope-svg {
+                display: none;
+            }
+            #beranda {
+                min-height: auto;
+            }
+            #beranda .text-content-area {
+                margin-left: 0;
+            }
+        }
+
+        /* Preloader Styling */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--dark-secondary-bg);
+            border-top: 5px solid var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* General Dark Mode Elements */
+        .bg-dark-secondary {
+            background-color: var(--dark-secondary-bg) !important;
+        }
+        .text-neon {
+            color: var(--neon-blue) !important;
+        }
         .btn-neon {
-            background: linear-gradient(45deg, var(--neon-blue), #0077b6);
-            color: #fff;
+            background-color: var(--neon-blue);
+            color: var(--dark-bg);
             border: none;
-            padding: 12px 32px;
+            padding: 10px 30px;
             border-radius: 8px;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.2);
         }
         .btn-neon:hover {
-            box-shadow: 0 0 25px var(--neon-blue);
-            transform: translateY(-3px);
-            color: #fff;
+            box-shadow: 0 0 20px var(--neon-blue);
+            transform: translateY(-2px);
+            color: var(--dark-bg);
         }
-        body.light-mode .btn-neon { color: #fff; }
 
-        /* Kartu (Card) yang disempurnakan */
+        /* Custom Card/Section Styling */
         .card {
-            background: linear-gradient(145deg, #2a2a2a, var(--dark-secondary-bg));
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--dark-secondary-bg);
+            border: 1px solid rgba(0, 191, 255, 0.1);
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            transition: all 0.4s ease;
+            box-shadow: var(--dark-shadow);
+            transition: all 0.3s;
         }
         .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 10px 40px rgba(0, 191, 255, 0.3);
-        }
-        body.light-mode .card {
-            background: var(--light-secondary-bg);
-            border: 1px solid #e9ecef;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.6);
         }
 
-        /* Timeline */
-        .timeline:before { background-color: var(--neon-blue); width: 3px; }
-        .timeline-badge { background-color: var(--neon-blue); width: 24px; height: 24px; margin-left: -12px; }
-        .timeline-content { width: 45%; }
-        /* Responsiveness Timeline (Tetap sama) */
+        /* Timeline Styling for "Tentang Saya" */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+            list-style: none;
+        }
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            margin-left: -1px;
+            background-color: var(--neon-blue);
+        }
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            float: left;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            float: right;
+        }
+        .timeline-content {
+            width: 45%;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--dark-secondary-bg);
+        }
+        .timeline-badge {
+            color: var(--dark-bg);
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 1.4em;
+            text-align: center;
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            margin-left: -10px;
+            background-color: var(--neon-blue);
+            border-radius: 50%;
+            z-index: 100;
+        }
+        /* Responsiveness for Timeline */
         @media (max-width: 768px) {
-            .timeline:before { left: 20px; }
-            .timeline-item { margin-left: 50px; }
-            .timeline-content { width: 100%; float: right !important; }
-            .timeline-badge { left: 20px; }
+            .timeline:before {
+                left: 20px;
+            }
+            .timeline-item {
+                margin-left: 50px;
+            }
+            .timeline-content {
+                width: 100%;
+                float: right !important;
+            }
+            .timeline-badge {
+                left: 20px;
+            }
         }
 
-        /* Progress Bar dengan Gradien */
+        /* Skill Progress Bar Styling */
         .progress {
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden; /* Pastikan gradien tidak keluar */
+            height: 15px;
+            background-color: var(--dark-secondary-bg);
+            border-radius: 8px;
         }
         .progress-bar {
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+            background-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+            transition: width 1.5s ease;
+        }
+        .light-mode .progress-bar {
             box-shadow: none;
-            transition: width 1.5s ease-in-out;
         }
 
-        /* Footer */
+        /* Footer Neon Glow */
         .footer {
             background-color: var(--dark-secondary-bg);
             border-top: 1px solid rgba(0, 191, 255, 0.1);
+            box-shadow: 0 -5px 15px rgba(0, 191, 255, 0.1);
+        }
+        .light-mode .footer {
+            box-shadow: none;
         }
 
-        /* --- PRELOADER (Tidak Diubah) --- */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 1; transition: opacity 0.5s ease-out; }
-        .spinner { width: 50px; height: 50px; border: 5px solid var(--dark-secondary-bg); border-top: 5px solid var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Utility & Loader Styles (Tidak Diubah) */
-        .loader-text { color: var(--neon-blue); font-size: 0.9rem; }
-        .light-mode .loader-text { color: var(--light-text); }
+        /* Nav Link Active State */
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--neon-blue) !important;
+            text-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+        }
+        
+        /* Loading/Error Styles */
+        .loader-text {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+        .light-mode .loader-text {
+            color: var(--light-text);
+        }
     </style>
 </head>
-
-<body data-bs-spy="scroll" data-bs-target="#navbar-portfolio" data-bs-offset="100">
+<body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="56" class="dark-mode">
 
     <div id="preloader">
         <div class="spinner"></div>
     </div>
-    
-    <nav id="navbar-portfolio" class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+    <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark-secondary shadow-lg py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold text-neon" href="#">Ario.dev</a>
+            <a class="navbar-brand fw-bold fs-4 text-neon" href="#beranda">Ario Bosku</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#keahlian">Keahlian</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#proyek">Proyek</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active mx-2" aria-current="page" href="#beranda">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="#tentang">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="#proyek">Proyek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="#kontak">Kontak</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button id="mode-toggle" class="btn btn-sm btn-outline-light rounded-pill p-2" aria-label="Toggle Dark/Light Mode">
+                            <i class="fas fa-sun"></i> </button>
+                    </li>
                 </ul>
-                <button id="theme-toggle" class="btn btn-outline-light ms-3" aria-label="Toggle Dark/Light Mode"><i class="fas fa-moon"></i></button>
             </div>
         </div>
     </nav>
+    
+    <svg id="rope-svg">
+        <line id="rope-line" x1="0" y1="0" x2="0" y2="0" stroke="var(--neon-blue)" stroke-width="2" />
+    </svg>
 
-    <main>
-        <section id="beranda" class="d-flex align-items-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-content-area">
-                        <p class="text-neon mb-2" data-aos="fade-right" data-aos-delay="100">Halo, perkenalkan, saya</p>
-                        <h1 class="display-3 fw-bold mb-3" data-aos="fade-right"><span id="typed-name"></span></h1>
-                        <p id="pitch-text" class="lead mb-4" style="min-height: 84px;" data-aos="fade-right" data-aos-delay="200"></p>
-                        <div data-aos="fade-right" data-aos-delay="300">
-                             <button id="generate-pitch-btn" class="btn btn-neon">
-                                Buat Pitch Baru <span class="loader-text" style="display: none;">...</span>
-                            </button>
+    <div id="fixed-image-area" data-aos="zoom-in">
+        <div id="anchor-point"></div> 
+        
+        <div id="draggable-container" class="shadow-lg">
+            <img id="profile-image" 
+                 src="ARIOS.png" 
+                 alt="Foto Profil Ario Bosku" 
+                 class="profile-img">
+        </div>
+    </div>
+
+
+    <main class="py-5">
+        <section id="beranda" class="container text-center py-5 my-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-content-area" data-aos="fade-left">
+                    <h1 class="display-3 fw-bolder mb-3">
+                        Halo, Saya <span class="text-neon">Anggrian kondo</span>
+                    </h1>
+                    <p class="lead mb-4 text-secondary">Web Developer & App Creator</p>
+                    <p class="fs-5 mb-5" id="current-pitch">
+                        Membangun pengalaman digital yang modern, responsif, dan berorientasi pada kinerja.
+                    </p>
+                    <div class="d-flex justify-content-center flex-column flex-md-row gap-3">
+                        <a href="#proyek" class="btn btn-neon btn-lg">
+                            <i class="fas fa-laptop-code me-2"></i> Lihat Portofolio Saya
+                        </a>
+                        <button id="generate-pitch-btn" class="btn btn-outline-info btn-lg">
+                            Buat Pitch Profesional ✨
+                        </button>
+                    </div>
+                    <div id="pitch-loader" class="loader-text mt-4 d-none">
+                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                        Membuat pitch profesional dengan AI...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-5 border-secondary mx-auto" style="width: 50%;">
+
+        <section id="tentang" class="container py-5">
+            <h2 class="text-center fw-bold mb-5" data-aos="fade-down">Tentang <span class="text-neon">Saya</span></h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                    <p class="fs-5">
+                        Saya Ario Bosku, seorang profesional di bidang pengembangan web dan aplikasi dengan pengalaman lebih dari 5 tahun. Saya berfokus pada pembangunan solusi digital yang tidak hanya fungsional tetapi juga memberikan pengalaman pengguna yang intuitif dan menyenangkan. Keahlian utama saya meliputi ekosistem MERN Stack, Flutter untuk pengembangan aplikasi mobile, dan penguasaan framework PHP seperti CodeIgniter.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row" data-aos="zoom-in">
+                <div class="col-12">
+                    <h3 class="text-center mb-4 text-neon">Pendidikan & Pengalaman</h3>
+                    <div class="timeline">
+                        <div class="timeline-item" data-aos="fade-up">
+                            <div class="timeline-badge"><i class="fas fa-briefcase"></i></div>
+                            <div class="timeline-content card">
+                                <h4 class="fw-bold card-title text-neon">Senior Web Developer</h4>
+                                <p class="text-secondary">Tech Global Solutions | 2022 - Sekarang</p>
+                                <p class="card-text">Memimpin tim pengembangan untuk proyek e-commerce berskala besar.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="timeline-badge"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="timeline-content card">
+                                <h4 class="fw-bold card-title text-neon">S1 Teknik Informatika</h4>
+                                <p class="text-secondary">Universitas Teknologi Digital | 2018 - 2022</p>
+                                <p class="card-text">Fokus studi pada Pengembangan Perangkat Lunak dan Algoritma.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
+                            <div class="timeline-badge"><i class="fas fa-briefcase"></i></div>
+                            <div class="timeline-content card">
+                                <h4 class="fw-bold card-title text-neon">Junior Mobile Developer</h4>
+                                <p class="text-secondary">App Innovations Co. | 2021 - 2022</p>
+                                <p class="card-text">Mengembangkan dan memelihara aplikasi mobile menggunakan Flutter dan Dart.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <div id="fixed-image-area" class="d-none d-lg-block">
-            <svg id="rope-svg">
-                <path id="rope-path" stroke="rgba(160, 160, 160, 0.5)" stroke-width="2" fill="none" />
-            </svg>
-            <div id="draggable-container">
-                <img id="profile-pic" src="ARIO.jpg" alt="Foto Profil Ario" class="profile-img">
-            </div>
-        </div>
-        <div id="anchor-point" class="d-none d-lg-block"></div>
+        <hr class="my-5 border-secondary mx-auto" style="width: 50%;">
 
-        </main>
-    
-    <footer class="footer text-center py-4">
-        <div class="container">
-            <p class="mb-0 text-secondary">&copy; 2025 Ario Bosku. Dibuat dengan <i class="fas fa-heart text-danger"></i> dan Secangkir Kopi.</p>
+        <section id="keahlian" class="container py-5">
+            <h2 class="text-center fw-bold mb-5" data-aos="fade-down">Keahlian <span class="text-neon">Teknis</span></h2>
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card p-4 h-100">
+                        <h4 class="card-title text-center text-neon mb-4"><i class="fas fa-code me-2"></i> Web Frontend</h4>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">HTML5</span>
+                                <span class="fw-medium text-neon">95%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">CSS3 / Bootstrap 5</span>
+                                <span class="fw-medium text-neon">90%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">JavaScript (ES6+)</span>
+                                <span class="fw-medium text-neon">85%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card p-4 h-100">
+                        <h4 class="card-title text-center text-neon mb-4"><i class="fas fa-server me-2"></i> Backend & Database</h4>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">PHP / CodeIgniter</span>
+                                <span class="fw-medium text-neon">80%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">MySQL / Firestore</span>
+                                <span class="fw-medium text-neon">75%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">Node.js (Dasar)</span>
+                                <span class="fw-medium text-neon">60%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 offset-md-3 mt-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="card p-4 h-100">
+                        <h4 class="card-title text-center text-neon mb-4"><i class="fas fa-mobile-alt me-2"></i> Mobile Development</h4>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium">Flutter / Dart</span>
+                                <span class="fw-medium text-neon">70%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-5 border-secondary mx-auto" style="width: 50%;">
+
+        <section id="proyek" class="container py-5">
+            <h2 class="text-center fw-bold mb-5" data-aos="fade-down">Proyek <span class="text-neon">Pilihan</span></h2>
+            <div class="row g-4">
+                
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="card">
+                        <img src="https://placehold.co/400x250/1f1f1f/00bfff?text=Web+E-commerce" class="card-img-top" alt="Screenshot Proyek E-commerce" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-neon">Sistem E-commerce Modern</h5>
+                            <p class="card-text text-secondary mb-2" id="blurb-1">Aplikasi web berbasis CodeIgniter dengan integrasi pembayaran dan manajemen inventaris real-time.</p>
+                            <div id="blurb-loader-1" class="loader-text d-none">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Menghasilkan blurb komersil...
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-sm btn-outline-info mt-2" target="_blank">Lihat Detail</a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card">
+                        <img src="https://placehold.co/400x250/1f1f1f/00bfff?text=Mobile+App+Flutter" class="card-img-top" alt="Screenshot Proyek Mobile App" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-neon">Mobile Health Tracker (Flutter)</h5>
+                             <p class="card-text text-secondary mb-2" id="blurb-2">Aplikasi mobile cross-platform untuk pelacakan kesehatan dan kebugaran dengan database Firestore.</p>
+                            <div id="blurb-loader-2" class="loader-text d-none">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Menghasilkan blurb komersil...
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-sm btn-outline-info mt-2" target="_blank">Kunjungi Repo</a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card">
+                        <img src="https://placehold.co/400x250/1f1f1f/00bfff?text=Web+Portofolio+3D" class="card-img-top" alt="Screenshot Proyek 3D Portfolio" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-neon">Portofolio Interaktif 3D</h5>
+                             <p class="card-text text-secondary mb-2" id="blurb-3">Website pribadi menggunakan Three.js untuk tampilan produk yang lebih imersif dan modern.</p>
+                            <div id="blurb-loader-3" class="loader-text d-none">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Menghasilkan blurb komersil...
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="https://smaktambolaka.gt.tc" class="btn btn-sm btn-outline-info mt-2" target="_blank">Lihat Detail</a>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-5 border-secondary mx-auto" style="width: 50%;">
+
+        <section id="kontak" class="container py-5">
+            <h2 class="text-center fw-bold mb-5" data-aos="fade-down">Hubungi <span class="text-neon">Saya</span></h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card p-4 p-md-5" data-aos="zoom-in">
+                        <form id="contact-form" action="mailto:ariokondo@gmail.com" method="GET" enctype="text/plain">
+                            <div class="mb-3">
+                                <label for="nama" class="form-label text-neon">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="nama" name="subject" required placeholder="Masukkan nama Anda">
+                            </div>
+                          <div class="mb-3">
+                                <label for="email" class="form-label text-neon">Alamat Email</label>
+                                <input type="email" class="form-control" id="email" name="cc" required placeholder="email@contoh.com">
+                            </div>
+                            <div class="mb-4">
+                                <label for="pesan" class="form-label text-neon">Pesan</label>
+                                <textarea class="form-control" id="pesan" rows="5" name="body" required placeholder="Sampaikan detail proyek atau pertanyaan Anda"></textarea>
+                            </div>
+                            <div id="contact-message" class="alert alert-success d-none" role="alert">
+                                Pesan Anda akan diarahkan ke aplikasi email Anda!
+                            </div>
+                            <button type="submit" class="btn btn-neon w-100">
+                                Kirim Pesan <i class="fas fa-paper-plane ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="text-center mt-5" data-aos="fade-up">
+                        <h4 class="text-neon mb-4">Temukan Saya di Media Sosial</h4>
+                        <a href="#" target="_blank" class="text-white fs-2 mx-3 text-decoration-none">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" target="_blank" class="text-white fs-2 mx-3 text-decoration-none">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" class="text-white fs-2 mx-3 text-decoration-none">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://wa.me/628123456789" target="_blank" class="text-white fs-2 mx-3 text-decoration-none">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer py-4 mt-5">
+        <div class="container text-center">
+            <small class="text-secondary">© 2025 Ario Bosku. All rights reserved.</small>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            // Inisialisasi AOS (Animasi saat scroll)
-            AOS.init({ duration: 1000, once: true });
-            
-            // --- LOGIKA BARU: EFEK MENGETIK (TYPED.JS) ---
-            
-            // 1. Efek mengetik untuk nama
-            const nameTyped = new Typed('#typed-name', {
-                strings: ['Ario Bosku'],
-                typeSpeed: 70,
-                backSpeed: 50,
-                showCursor: true,
-                cursorChar: '_',
-                onComplete: (self) => {
-                    // Panggil Gemini untuk pitch setelah nama selesai diketik
-                    generatePitch(); 
-                }
-            });
+        // Inisialisasi AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            mirror: false
+        });
 
-            // Variabel untuk menyimpan instance Typed.js dari pitch
-            let pitchTypedInstance = null;
+        // --------------------------------------------------------
+        // NEW FEATURE: DRAGGABLE ELASTIC IMAGE LOGIC (Spring Physics)
+        // --------------------------------------------------------
+        const draggableContainer = document.getElementById('draggable-container');
+        const profileImage = document.getElementById('profile-image');
+        const fixedArea = document.getElementById('fixed-image-area');
+        const ropeLine = document.getElementById('rope-line');
+        
+        let isDragging = false;
+        let startX, startY;      // Mouse start position
+        let initialX, initialY;  // Image start position (transform)
+        let currentX = 0;
+        let currentY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        
+        const stiffness = 0.05; // Kekuatan pegas (lebih rendah = lebih lambat)
+        const damping = 0.8;    // Redaman (lebih rendah = lebih banyak pantulan)
+        let velocityX = 0;
+        let velocityY = 0;
 
-            // --- FUNGSI GENERATE PITCH DIMODIFIKASI ---
-            async function generatePitch() {
-                const pitchTextElement = document.getElementById('pitch-text');
-                const pitchBtn = document.getElementById('generate-pitch-btn');
-                const loader = pitchBtn.querySelector('.loader-text');
-                
-                // Hancurkan instance sebelumnya jika ada (saat tombol diklik lagi)
-                if (pitchTypedInstance) {
-                    pitchTypedInstance.destroy();
-                }
+        let animationFrameId = null;
 
-                // Tampilkan placeholder mengetik
-                pitchTextElement.innerHTML = ''; // Kosongkan elemen
-                pitchTypedInstance = new Typed('#pitch-text', {
-                    strings: ['Membuat pitch profesional...'],
-                    typeSpeed: 40,
-                    showCursor: true,
-                    cursorChar: '_',
-                });
+        // Tentukan posisi anchor point
+        const anchorPoint = {
+            // PERUBAHAN: Sinkron dengan CSS (25% dari lebar layar)
+            x: window.innerWidth * 0.25, 
+            y: 0 // Dari atas
+        };
 
-                if(loader) loader.style.display = 'inline-block';
-                pitchBtn.disabled = true;
-
-                try {
-                    const response = await fetch("https://gemini-api.keren.workers.dev/?prompt=berikan%20saya%20sebuah%20pitch%20perkenalan%20diri%20sebagai%20seorang%20web%20developer%20dan%20app%20creator%20dalam%201%20kalimat");
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    const pitch = data.pitch;
-
-                    // Hancurkan placeholder dan mulai animasi mengetik untuk pitch asli
-                    pitchTypedInstance.destroy();
-                    pitchTextElement.innerHTML = ''; // Kosongkan lagi
-                    
-                    pitchTypedInstance = new Typed('#pitch-text', {
-                        strings: [pitch],
-                        typeSpeed: 30,
-                        showCursor: true,
-                        cursorChar: '_',
-                    });
-
-                } catch (error) {
-                    console.error('Error fetching pitch:', error);
-                     if (pitchTypedInstance) pitchTypedInstance.destroy();
-                    pitchTextElement.textContent = 'Gagal membuat pitch. Silakan coba lagi nanti.';
-                } finally {
-                    if(loader) loader.style.display = 'none';
-                    pitchBtn.disabled = false;
-                }
+        /**
+         * Menggambar tali/rope menggunakan SVG
+         */
+        function drawRope() {
+            if (window.innerWidth < 992) {
+                // Jangan gambar di mobile
+                ropeLine.setAttribute('x1', 0);
+                ropeLine.setAttribute('y1', 0);
+                ropeLine.setAttribute('x2', 0);
+                ropeLine.setAttribute('y2', 0);
+                return;
             }
 
-            // --- FUNGSI LAMA YANG TETAP DIGUNAKAN ---
+            // Hitung posisi tengah atas gambar relatif terhadap viewport
+            const rect = draggableContainer.getBoundingClientRect();
+            
+            // Posisi tengah gambar (horizontal)
+            const imgCenterX = rect.left + rect.width / 2;
+            
+            // Posisi atas gambar (vertikal)
+            const imgTopY = rect.top;
 
-            // Preloader Logic
+            // Anchor point di tengah atas gambar (sesuai CSS left: 25%)
+            const anchorX = window.innerWidth * 0.25; 
+
+            // Atur posisi garis
+            ropeLine.setAttribute('x1', anchorX);
+            ropeLine.setAttribute('y1', anchorPoint.y); // Dari puncak layar (Y=0)
+            ropeLine.setAttribute('x2', imgCenterX);
+            ropeLine.setAttribute('y2', imgTopY);
+        }
+        
+        /**
+         * Loop animasi untuk efek pegas (spring physics)
+         */
+        function animateSpring() {
+            if (isDragging) {
+                animationFrameId = requestAnimationFrame(animateSpring);
+                return; 
+            }
+
+            // Hitung gaya pegas
+            const forceX = (targetX - currentX) * stiffness;
+            const forceY = (targetY - currentY) * stiffness;
+
+            // Update kecepatan (tambahkan gaya, dikurangi redaman)
+            velocityX += forceX;
+            velocityY += forceY;
+            velocityX *= damping;
+            velocityY *= damping;
+
+            // Update posisi
+            currentX += velocityX;
+            currentY += velocityY;
+
+            // Terapkan transformasi
+            draggableContainer.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            drawRope();
+
+            // Jika pergerakan sangat kecil, hentikan animasi
+            if (Math.abs(velocityX) < 0.1 && Math.abs(velocityY) < 0.1 && Math.abs(targetX - currentX) < 0.1 && Math.abs(targetY - currentY) < 0.1) {
+                currentX = targetX;
+                currentY = targetY;
+                draggableContainer.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                drawRope();
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            } else {
+                animationFrameId = requestAnimationFrame(animateSpring);
+            }
+        }
+
+        /**
+         * Mengatur posisi awal setelah window resize/load
+         */
+        function setInitialPosition() {
+             // Target X harus 0, karena pergerakan dihitung relatif terhadap #fixed-image-area. 
+             targetX = 0;
+             currentX = targetX;
+
+             // Target Y juga 0. 
+             targetY = 0; 
+             currentY = targetY;
+
+             // Terapkan posisi awal
+             draggableContainer.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+             // Update anchor point X agar sinkron dengan CSS (25% dari kiri)
+             anchorPoint.x = window.innerWidth * 0.25; 
+
+             drawRope();
+        }
+
+        // --- Event Handlers untuk Drag and Drop (Mouse) ---
+        function startDrag(e) {
+            // Hanya aktifkan di layar desktop
+            if (window.innerWidth < 992) return;
+
+            e.preventDefault();
+            isDragging = true;
+            // Hentikan animasi pegas saat memulai drag
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            // Mendapatkan posisi awal mouse/sentuhan
+            startX = e.clientX || e.touches[0].clientX;
+            startY = e.clientY || e.touches[0].clientY;
+
+            // Menyimpan posisi transformasi gambar saat ini
+            initialX = currentX;
+            initialY = currentY;
+
+            // Tambahkan event listener global saat drag dimulai
+            document.addEventListener('mousemove', dragMove);
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchmove', dragMove);
+            document.addEventListener('touchend', endDrag);
+
+            // Ganti kursor
+            profileImage.style.cursor = 'grabbing';
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+            
+            e.preventDefault();
+
+            // Mendapatkan posisi mouse/sentuhan saat ini
+            const currentClientX = e.clientX || e.touches[0].clientX;
+            const currentClientY = e.clientY || e.touches[0].clientY;
+
+            // Hitung perbedaan pergerakan
+            const dx = currentClientX - startX;
+            const dy = currentClientY - startY;
+
+            // Update posisi gambar saat ini
+            currentX = initialX + dx;
+            currentY = initialY + dy;
+
+            // Terapkan transformasi dan gambar tali
+            draggableContainer.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            drawRope();
+        }
+
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // Atur target posisi kembali ke posisi semula (0, targetY)
+            targetX = 0;
+            // Target Y tetap, yaitu 0 (posisi CSS)
+
+            // Reset velocity
+            velocityX = 0;
+            velocityY = 0;
+
+            // Mulai animasi pegas
+            if (!animationFrameId) {
+                animateSpring();
+            }
+
+            // Hapus event listener global
+            document.removeEventListener('mousemove', dragMove);
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchmove', dragMove);
+            document.removeEventListener('touchend', endDrag);
+
+            // Ganti kursor
+            profileImage.style.cursor = 'grab';
+        }
+
+        // --- Inisialisasi Event Listeners ---
+        profileImage.addEventListener('mousedown', startDrag);
+        profileImage.addEventListener('touchstart', startDrag);
+        
+        window.addEventListener('resize', setInitialPosition);
+        
+        // --------------------------------------------------------
+        // GEMINI API INTEGRATION (Tetap sama dari sebelumnya)
+        // --------------------------------------------------------
+        const GEMINI_MODEL = "gemini-2.5-flash-preview-05-20";
+        const API_KEY = ""; // Kunci API akan disediakan oleh runtime
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY}`;
+        const MAX_RETRIES = 5;
+
+        async function callGeminiApi(payload, retryCount = 0) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 429 && retryCount < MAX_RETRIES) {
+                        const delay = Math.pow(2, retryCount) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return callGeminiApi(payload, retryCount + 1);
+                    }
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (!text) {
+                     return "Gagal menghasilkan teks. Silakan coba lagi.";
+                }
+                return text.trim();
+
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "Maaf, terjadi kesalahan saat menghubungi AI. Silakan periksa konsol.";
+            }
+        }
+        
+        // --- Pitch Generator Logic ---
+        async function generatePitch() {
+            const pitchElement = document.getElementById('current-pitch');
+            const loader = document.getElementById('pitch-loader');
+            const button = document.getElementById('generate-pitch-btn');
+
+            const skills = "MERN Stack, Flutter, CodeIgniter, MySQL, 5 tahun pengalaman.";
+            const focus = "Fokus pada pembangunan solusi digital yang intuitif dan berorientasi kinerja.";
+            const systemPrompt = "Anda adalah seorang copywriter yang bertugas membuat ringkasan profesional (pitch elevator) yang menarik untuk seorang Web Developer. Pitch harus ringkas (maksimal 25 kata), bersemangat, dan menyoroti keahlian utama. Jangan gunakan sapaan.";
+            const userQuery = `Buatkan pitch profesional untuk developer dengan keahlian: ${skills}. Fokus: ${focus}`;
+
+            loader.classList.remove('d-none');
+            button.disabled = true;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            const newPitch = await callGeminiApi(payload);
+
+            loader.classList.add('d-none');
+            button.disabled = false;
+            
+            pitchElement.textContent = newPitch;
+        }
+
+        // --- Project Blurb Generator Logic ---
+        async function generateProjectBlurb(projectId, projectName, projectDetails) {
+            const blurbElement = document.getElementById(`blurb-${projectId}`);
+            const loader = document.getElementById(`blurb-loader-${projectId}`);
+            const button = document.querySelector(`.generate-blurb-btn[data-project-id="${projectId}"]`);
+
+            const systemPrompt = "Anda adalah seorang penulis deskripsi proyek yang bertugas membuat ringkasan proyek yang sangat menarik dan berorientasi hasil untuk portofolio. Deskripsi harus memiliki daya jual, fokus pada hasil (bukan hanya teknologi), dan berkarakter profesional (maksimal 40 kata).";
+            const userQuery = `Buatkan blurb komersil untuk proyek: '${projectName}'. Detail proyek: ${projectDetails}`;
+
+            loader.classList.remove('d-none');
+            button.disabled = true;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            const newBlurb = await callGeminiApi(payload);
+
+            loader.classList.add('d-none');
+            button.disabled = false;
+            
+            blurbElement.textContent = newBlurb;
+        }
+
+
+        // --------------------------------------------------------
+        // STANDARD PORTFOLIO LOGIC
+        // --------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', function () {
+            const body = document.body;
+            const toggleButton = document.getElementById('mode-toggle');
             const preloader = document.getElementById('preloader');
-            window.addEventListener('load', () => {
+
+            // 1. Preloader Logic
+            window.onload = function() {
                 setTimeout(() => {
                     preloader.style.opacity = '0';
-                    setTimeout(() => preloader.style.display = 'none', 500);
-                }, 500); 
-            });
-
-            // Draggable Image with Spring Physics Logic
-            const container = document.getElementById('draggable-container');
-            const img = document.getElementById('profile-pic');
-            const anchor = document.getElementById('anchor-point');
-            const ropePath = document.getElementById('rope-path');
-            
-            if (container && img && anchor && ropePath) {
-                let isDragging = false;
-                let pos = { x: 0, y: 0 };
-                let velocity = { x: 0, y: 0 };
-                const stiffness = 0.08;
-                const damping = 0.85;
-                const mass = 1;
-
-                function updateRope() {
-                    const anchorRect = anchor.getBoundingClientRect();
-                    const containerRect = container.getBoundingClientRect();
-                    const anchorX = anchorRect.left + window.scrollX;
-                    const anchorY = anchorRect.top + window.scrollY;
-                    const imgX = containerRect.left + containerRect.width / 2 + window.scrollX;
-                    const imgY = containerRect.top + window.scrollY;
-                    ropePath.setAttribute('d', `M ${anchorX} ${anchorY} L ${imgX} ${imgY}`);
-                }
-                
-                function physicsLoop() {
-                    if (!isDragging) {
-                        const forceX = -stiffness * pos.x;
-                        const forceY = -stiffness * pos.y;
-                        
-                        const ax = forceX / mass;
-                        const ay = forceY / mass;
-
-                        velocity.x += ax;
-                        velocity.y += ay;
-
-                        velocity.x *= damping;
-                        velocity.y *= damping;
-
-                        pos.x += velocity.x;
-                        pos.y += velocity.y;
-
-                        container.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 500);
+                    
+                    // Setelah preloader hilang, hitung posisi awal gambar
+                    if (window.innerWidth >= 992) {
+                        setInitialPosition();
                     }
-                    updateRope();
-                    requestAnimationFrame(physicsLoop);
+
+                }, 800);
+            };
+
+            // Fungsi untuk mengatur tema
+            function setTheme(isDarkMode) {
+                if (isDarkMode) {
+                    body.classList.remove('light-mode');
+                    body.classList.add('dark-mode');
+                    toggleButton.innerHTML = '<i class="fas fa-sun text-warning"></i>';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.classList.remove('dark-mode');
+                    body.classList.add('light-mode');
+                    toggleButton.innerHTML = '<i class="fas fa-moon text-primary"></i>';
+                    localStorage.setItem('theme', 'light');
                 }
-
-                img.addEventListener('mousedown', e => {
-                    isDragging = true;
-                    img.style.cursor = 'grabbing';
-                });
-
-                window.addEventListener('mouseup', e => {
-                    isDragging = false;
-                    img.style.cursor = 'grab';
-                });
-
-                window.addEventListener('mousemove', e => {
-                    if (isDragging) {
-                        pos.x += e.movementX;
-                        pos.y += e.movementY;
-                        container.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
-                    }
-                });
-                
-                physicsLoop();
             }
 
-            // Theme Toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            const icon = themeToggle.querySelector('i');
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('light-mode');
-                if (document.body.classList.contains('light-mode')) {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                } else {
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                }
+            // Memuat tema dari localStorage (default dark)
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                setTheme(false);
+            } else {
+                setTheme(true);
+            }
+
+            // Event listener untuk toggle
+            toggleButton.addEventListener('click', function () {
+                const isDarkMode = body.classList.contains('dark-mode');
+                setTheme(!isDarkMode);
             });
 
-            // Gemini Project Blurb Generator (Tidak diubah)
+            // 2. Logika Form Kontak (Simulasi) - LOGIKA ASLI DIHAPUS KARENA MENGGUNAKAN mailto: DI HTML
+            // Logika kontak sekarang ditangani sepenuhnya oleh 'mailto:' di elemen form HTML.
+
+            
+            // 3. Smooth Scrolling & Active Nav Link (Bootstrap Scrollspy)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 4. Attach Gemini Event Listeners
+            
+            // Listener untuk Pitch Generator di Hero Section
+            const pitchBtn = document.getElementById('generate-pitch-btn');
+            if (pitchBtn) {
+                pitchBtn.addEventListener('click', generatePitch);
+            }
+            
+            // Listener untuk Blurb Generator di Project Section
             document.querySelectorAll('.generate-blurb-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const projectId = this.getAttribute('data-project-id');
@@ -482,11 +1056,6 @@
                     generateProjectBlurb(projectId, projectName, projectDetails);
                 });
             });
-
-            // Fungsi generateProjectBlurb (tidak diubah)
-            async function generateProjectBlurb(projectId, projectName, projectDetails) {
-                // ... (Fungsi ini tetap sama seperti sebelumnya)
-            }
         });
     </script>
 </body>
